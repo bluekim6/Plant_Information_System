@@ -74,7 +74,13 @@
       "Bash(npm install *)",
       "Bash(awk '{print $2}')",
       "Bash(xargs '-I{}' sh -c ' *)",
-      "Bash(open *)"
+      "Bash(open *)",
+      "Bash(node *)",
+      "Read(//private/tmp/**)",
+      "Bash(npm init *)",
+      "Bash(git *)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(gh auth *)"
     ]
   }
 }
