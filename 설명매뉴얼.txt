@@ -1,0 +1,66 @@
+현재까지 만든 시스템을 실행하는 방법입니다.                                                                                                                                                                             
+  사전 확인 (이미 모두 준비됨)                                                                                                                                                                                            
+  - ✅ Python 가상환경: D:\code\EngineeringDT_2\venv502                                                      
+  - ✅ 백엔드 의존성: 설치 완료 (fastapi, uvicorn, pandas, openpyxl 등)
+  - ✅ 프론트엔드 의존성: 설치 완료 (frontend/node_modules)
+  - ✅ backend/.env 와 frontend/.env: 생성 완료
+  - ✅ 엑셀 4개 파일 + Document_Storage 폴더: 존재 확인
+
+  실행 (PowerShell 창 2개 필요)
+
+  창 1 — 백엔드 (포트 8000)
+
+  cd D:\code\EngineeringDT_2
+  .\venv502\Scripts\Activate.ps1
+  cd backend
+  uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+  뜨면 다음 로그가 보입니다:
+  INFO:     Application startup complete.
+  INFO:     Uvicorn running on http://127.0.0.1:8000
+
+  창 2 — 프론트엔드 (포트 5173)
+
+  cd D:\code\EngineeringDT_2\frontend
+  npm run dev
+
+  뜨면:
+  VITE v5.4.21  ready in 672 ms
+  ➜  Local:   http://localhost:5173/
+
+  접속 후 시도해볼 흐름
+
+  브라우저에서 http://localhost:5173 접속.
+
+  1. 좌측 트리에서 Production Inlet System ▸ A ▸ P-1001 클릭 → 중앙에 Tag 상세
+  2. 중앙 헤더의 P-1001 [관련 도면/문서 보기 ▸] 클릭 → 관련 도면 목록
+  3. ABCD-ZL-0001 클릭 → 도면 상세 + 포함 Tag 9개
+  4. 도면 화면의 P-1005 클릭 → 다른 Tag 상세로 복귀
+  5. Tag 상세에서 Manufacture Name (예: Nexus Marine) 클릭 → 모달
+  6. 상단 검색창에 P-1001, Production, ABCD-ZL 등 입력 → 드롭다운 결과
+  npm run dev
+
+  뜨면:
+  VITE v5.4.21  ready in 672 ms
+  ➜  Local:   http://localhost:5173/
+
+  접속 후 시도해볼 흐름
+
+  브라우저에서 http://localhost:5173 접속.
+
+  1. 좌측 트리에서 Production Inlet System ▸ A ▸ P-1001 클릭 → 중앙에 Tag 상세
+  2. 중앙 헤더의 P-1001 [관련 도면/문서 보기 ▸] 클릭 → 관련 도면 목록
+  3. ABCD-ZL-0001 클릭 → 도면 상세 + 포함 Tag 9개
+  4. 도면 화면의 P-1005 클릭 → 다른 Tag 상세로 복귀
+  5. Tag 상세에서 Manufacture Name (예: Nexus Marine) 클릭 → 모달
+  6. 상단 검색창에 P-1001, Production, ABCD-ZL 등 입력 → 드롭다운 결과
+
+  
+  백엔드만 동작 확인하고 싶을 때:
+  curl http://127.0.0.1:8000/api/health
+  → {"status":"ok", "data":{"rowCounts":{"tag_register":499, ...}}} 가 나오면 정상.
+
+  Swagger 문서: http://127.0.0.1:8000/docs 에서 19개 엔드포인트를 직접 호출해 볼 수 있습니다.
+
+
+이 도면이 포함하는 tag를 화면 하단에 배치하지 말고 화면 우측에 배치하는데, 문서 No. 밑이 하이라키로 표현 될 수 있게 해줘

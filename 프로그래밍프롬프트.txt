@@ -1,0 +1,468 @@
+
+기존 파일 전체를 불필요하게 다시 작성하지 말고, 필요한 파일만 생성하거나 수정하라.
+수정한 파일 목록과 수정 이유를 마지막에 반드시 정리하라.
+
+단계 넘어갈때 마다 위 메세지를 계속 넣을 것
+
+지금 실행해보려면 어떻게 해야해?
+
+1단계
+
+너는 시니어 풀스택 개발자다.
+
+첨부된 PRD.txt와 엑셀 파일 4개를 기준으로 Engineering Information System을 만든다.
+
+사용 기술:
+- Frontend: React + TypeScript
+- Backend: FastAPI + Python
+- DB: 별도 DB 사용 금지, 엑셀 파일을 데이터 소스로 사용
+- 도면: PDF Viewer 우선
+- 실행 환경: 개인 PC 로컬 실행 기준
+
+반드시 지킬 것:
+1. 프로그램을 여러 파일로 모듈화해서 만들어라.
+2. 하나의 파일에 모든 기능을 몰아넣지 마라.
+3. 이후 수정 시 전체 프로그램이 아니라 특정 파일만 교체할 수 있게 구조화하라.
+4. Backend는 config / models / repositories / services / api routes / utils 로 분리하라.
+5. Frontend는 api / types / pages / components / hooks / utils 로 분리하라.
+6. 데이터 파일 경로는 코드에 직접 박지 말고 .env 또는 config 파일에서 관리하라.
+7. 엑셀 컬럼명은 가능한 한 원본 컬럼명을 유지하되, 내부에서는 명확한 타입으로 정리하라.
+
+현재 사용할 데이터 파일:
+- Tag_Register.xlsx
+- Document_List.xlsx
+- Document_to_Tag.xlsx
+- Manufacture_list.xlsx
+- PRD.txt
+
+먼저 할 일:
+1. 전체 폴더 구조를 설계하라.
+2. FastAPI 백엔드와 React 프론트엔드 프로젝트 기본 구조를 생성하라.
+3. README.md에 실행 방법을 작성하라.
+4. .env.example 파일을 만들어 엑셀 파일 경로와 PDF 도면 폴더 경로를 설정할 수 있게 하라.
+5. 아직 세부 기능 구현은 하지 말고, 빈 모듈과 기본 실행 구조만 만들어라.
+
+결과물:
+- 생성한 폴더 구조 설명
+- 생성/수정한 파일 목록
+- 다음 단계에서 구현해야 할 항목 요약
+
+
+이제 엑셀 데이터 로딩 기능을 구현한다.
+
+반드시 PRD.txt와 아래 엑셀 파일 구조를 기준으로 작업하라.
+
+사용 파일:
+- Tag_Register.xlsx
+  - 주요 컬럼: Tag, Description, System, Package, Reference Drawing, Manufacture Name, Attribute A, Attribute B 등
+- Document_List.xlsx
+  - 주요 컬럼: Document Number, Document Name, Revision
+- Document_to_Tag.xlsx
+  - 주요 컬럼: Document Number, Tag
+- Manufacture_list.xlsx
+  - 주요 컬럼: ID, Company_Name, Industry_Sector, Country_Origin, Vendor_Code, Phone_Number
+
+구현 원칙:
+1. 엑셀 로딩 전용 모듈을 만든다.
+2. pandas 또는 openpyxl 중 적절한 것을 사용하되, 로딩 책임은 backend/app/data 또는 backend/app/repositories 안의 별도 파일에 둔다.
+3. 엑셀 컬럼명이 바뀌었을 때 한 파일만 수정하면 되도록 컬럼 매핑 파일을 분리한다.
+4. 데이터 검증 로직도 별도 파일로 분리한다.
+5. 엑셀 파일이 없거나 필수 컬럼이 없을 때 친절한 에러 메시지를 반환한다.
+6. 백엔드 시작 시 모든 엑셀을 읽되, 추후 캐싱 또는 재로딩이 가능하도록 구조화한다.
+
+만들 기능:
+- 전체 Tag 목록 로딩
+- 전체 Document 목록 로딩
+- Document와 Tag 관계 로딩
+- Manufacture 목록 로딩
+- Tag 기준 관련 문서 찾기
+- Document 기준 관련 Tag 찾기
+- Manufacture Name 기준 제조사 상세정보 찾기
+
+권장 파일 구조:
+- backend/app/core/config.py
+- backend/app/core/column_map.py
+- backend/app/data/excel_loader.py
+- backend/app/repositories/tag_repository.py
+- backend/app/repositories/document_repository.py
+- backend/app/repositories/manufacture_repository.py
+- backend/app/models/schemas.py
+
+결과물:
+1. 실제 동작하는 엑셀 로딩 코드
+2. 각 repository 함수 목록
+3. 간단한 테스트 또는 확인용 API
+4. 생성/수정한 파일 목록
+
+
+
+2단계
+
+이제 엑셀 데이터 로딩 기능을 구현한다.
+
+반드시 PRD.txt와 아래 엑셀 파일 구조를 기준으로 작업하라.
+
+사용 파일:
+- Tag_Register.xlsx
+  - 주요 컬럼: Tag, Description, System, Package, Reference Drawing, Manufacture Name, Attribute A, Attribute B 등
+- Document_List.xlsx
+  - 주요 컬럼: Document Number, Document Name, Revision
+- Document_to_Tag.xlsx
+  - 주요 컬럼: Document Number, Tag
+- Manufacture_list.xlsx
+  - 주요 컬럼: ID, Company_Name, Industry_Sector, Country_Origin, Vendor_Code, Phone_Number
+
+구현 원칙:
+1. 엑셀 로딩 전용 모듈을 만든다.
+2. pandas 또는 openpyxl 중 적절한 것을 사용하되, 로딩 책임은 backend/app/data 또는 backend/app/repositories 안의 별도 파일에 둔다.
+3. 엑셀 컬럼명이 바뀌었을 때 한 파일만 수정하면 되도록 컬럼 매핑 파일을 분리한다.
+4. 데이터 검증 로직도 별도 파일로 분리한다.
+5. 엑셀 파일이 없거나 필수 컬럼이 없을 때 친절한 에러 메시지를 반환한다.
+6. 백엔드 시작 시 모든 엑셀을 읽되, 추후 캐싱 또는 재로딩이 가능하도록 구조화한다.
+
+만들 기능:
+- 전체 Tag 목록 로딩
+- 전체 Document 목록 로딩
+- Document와 Tag 관계 로딩
+- Manufacture 목록 로딩
+- Tag 기준 관련 문서 찾기
+- Document 기준 관련 Tag 찾기
+- Manufacture Name 기준 제조사 상세정보 찾기
+
+권장 파일 구조:
+- backend/app/core/config.py
+- backend/app/core/column_map.py
+- backend/app/data/excel_loader.py
+- backend/app/repositories/tag_repository.py
+- backend/app/repositories/document_repository.py
+- backend/app/repositories/manufacture_repository.py
+- backend/app/models/schemas.py
+
+결과물:
+1. 실제 동작하는 엑셀 로딩 코드
+2. 각 repository 함수 목록
+3. 간단한 테스트 또는 확인용 API
+4. 생성/수정한 파일 목록
+
+
+
+3단계
+
+이제 FastAPI Backend API를 구현한다.
+
+PRD의 핵심 구조는 System → Package → Tag 이다.
+사용자가 System을 클릭하면 Package 목록이 나오고,
+Package를 클릭하면 Tag 목록이 나와야 한다.
+Tag를 클릭하면 Tag 상세정보가 화면 중앙에 표시되어야 한다.
+
+Backend API를 다음처럼 분리해서 구현하라.
+
+필수 API:
+1. GET /api/systems
+   - 전체 System 목록 반환
+
+2. GET /api/systems/{system_name}/packages
+   - 특정 System에 속한 Package 목록 반환
+
+3. GET /api/packages/{package_name}/tags
+   - 특정 Package에 속한 Tag 목록 반환
+
+4. GET /api/tags/{tag_no}
+   - Tag 상세정보 반환
+   - Tag, Description, System, Package, Reference Drawing, Manufacture Name, Attribute A, Attribute B 등 포함
+
+5. GET /api/tags/{tag_no}/documents
+   - 해당 Tag와 연결된 문서/도면 목록 반환
+   - Document Number, Document Name, Revision 포함
+
+6. GET /api/documents/{document_no}
+   - 문서 상세정보 반환
+
+7. GET /api/documents/{document_no}/tags
+   - 해당 도면 또는 문서가 가지고 있는 Tag 목록 반환
+
+8. GET /api/manufactures/{manufacture_name}
+   - Manufacture Name으로 제조사 상세정보 반환
+   - Manufacture_list.xlsx에서 조회
+
+9. GET /api/search
+   - query 파라미터로 Tag, System, Package, Document Number, Document Name 검색
+
+10. GET /api/health
+   - 서버 상태와 엑셀 로딩 상태 반환
+
+구현 원칙:
+1. API route 파일을 기능별로 분리하라.
+2. route 안에 직접 엑셀 처리 로직을 넣지 마라.
+3. route → service → repository 순서로 호출되게 만들어라.
+4. 응답 타입은 Pydantic schema로 정의하라.
+5. API 에러 응답 형식을 통일하라.
+6. 추후 DB로 바꾸더라도 repository만 바꾸면 되도록 설계하라.
+
+권장 파일:
+- backend/app/api/routes/systems.py
+- backend/app/api/routes/packages.py
+- backend/app/api/routes/tags.py
+- backend/app/api/routes/documents.py
+- backend/app/api/routes/manufactures.py
+- backend/app/api/routes/search.py
+- backend/app/services/hierarchy_service.py
+- backend/app/services/tag_service.py
+- backend/app/services/document_service.py
+- backend/app/services/manufacture_service.py
+- backend/app/services/search_service.py
+
+결과물:
+- API 구현
+- Swagger에서 확인 가능한 상태
+- 각 API 예시 응답
+- 생성/수정한 파일 목록
+
+
+4단계
+
+이제 React + TypeScript Frontend를 구현한다.
+
+화면 목적:
+Engineering Information System의 메인 화면을 만든다.
+왼쪽에는 System → Package → Tag 계층 구조가 보이고,
+가운데에는 선택한 Tag 상세정보가 표시되어야 한다.
+오른쪽 또는 하단에는 관련 문서/도면 목록이 표시될 수 있도록 영역을 준비한다.
+
+필수 UI 구조:
+1. 상단 Header
+   - 시스템명: Engineering Information System
+   - 검색창
+   - 사용자 역할 표시 영역
+
+2. 왼쪽 Sidebar
+   - System 목록
+   - System 클릭 시 Package 목록 펼침
+   - Package 클릭 시 Tag 목록 펼침
+   - Tag 클릭 시 중앙 상세 패널에 Tag 정보 표시
+
+3. 중앙 Main Panel
+   - 선택된 Tag 상세정보 표시
+   - Tag
+   - Description
+   - System
+   - Package
+   - Reference Drawing
+   - Manufacture Name
+   - Attribute A
+   - Attribute B
+   - 그 외 Attribute들은 접었다 펼 수 있는 영역으로 표시
+
+4. 오른쪽 Detail Panel 또는 Modal 영역
+   - 제조사 정보 팝업
+   - 도면 상세
+   - 관련 Tag 목록 표시 준비
+
+구현 원칙:
+1. API 호출 코드는 components 안에 직접 넣지 말고 src/api 폴더에 분리하라.
+2. 타입은 src/types 폴더에 분리하라.
+3. 화면 컴포넌트는 작게 나누어라.
+4. Tag 상세 패널, 계층 트리, 검색창, 제조사 팝업은 각각 독립 컴포넌트로 만들어라.
+5. 나중에 UI만 수정할 수 있도록 비즈니스 로직과 화면 컴포넌트를 분리하라.
+6. 로딩/에러/빈 데이터 상태를 처리하라.
+
+권장 파일:
+- frontend/src/api/client.ts
+- frontend/src/api/systems.ts
+- frontend/src/api/tags.ts
+- frontend/src/api/documents.ts
+- frontend/src/api/manufactures.ts
+- frontend/src/types/tag.ts
+- frontend/src/types/document.ts
+- frontend/src/types/manufacture.ts
+- frontend/src/components/layout/Header.tsx
+- frontend/src/components/layout/Sidebar.tsx
+- frontend/src/components/hierarchy/SystemTree.tsx
+- frontend/src/components/tag/TagDetailPanel.tsx
+- frontend/src/components/manufacture/ManufactureModal.tsx
+- frontend/src/pages/MainPage.tsx
+
+결과물:
+- 화면 구현
+- API 연동
+- 생성/수정한 파일 목록
+- 실행 방법
+
+
+5단계
+
+이제 PRD에서 가장 중요한 시나리오 D를 구현한다.
+
+핵심 동작:
+1. 사용자가 왼쪽 트리에서 Tag를 클릭한다.
+2. 화면 중앙에 해당 Tag의 상세정보를 표시한다.
+3. 중앙 Tag 상세정보 영역에서 Tag 번호를 한 번 더 클릭하면,
+   해당 Tag와 연결된 도면/문서 List를 보여준다.
+4. 도면 No. 또는 Document Number를 클릭하면,
+   해당 도면 상세 화면으로 이동하거나 오른쪽 패널에 표시한다.
+5. 해당 도면이 가지고 있는 Tag 목록을 함께 표시한다.
+6. 도면에 연결된 Tag를 다시 클릭하면,
+   다시 해당 Tag 상세정보 화면으로 돌아온다.
+
+구현할 Backend 보완:
+- /api/tags/{tag_no}/documents 응답이 정확히 동작하는지 확인
+- /api/documents/{document_no}/tags 응답이 정확히 동작하는지 확인
+- Document_List.xlsx와 Document_to_Tag.xlsx 관계를 기준으로 연결
+
+구현할 Frontend:
+1. TagDetailPanel 안의 Tag 번호를 클릭 가능하게 만들기
+2. 클릭 시 RelatedDocumentList 컴포넌트 표시
+3. Document Number 클릭 시 DocumentDetailPanel 표시
+4. DocumentDetailPanel 안에 이 도면이 가지고 있는 Tag 목록 표시
+5. Tag 목록에서 Tag 클릭 시 다시 TagDetailPanel로 이동
+6. 현재 선택 상태를 React state 또는 hook으로 관리
+
+권장 파일:
+- frontend/src/components/tag/TagDetailPanel.tsx
+- frontend/src/components/document/RelatedDocumentList.tsx
+- frontend/src/components/document/DocumentDetailPanel.tsx
+- frontend/src/components/tag/RelatedTagList.tsx
+- frontend/src/hooks/useSelectedTag.ts
+- frontend/src/hooks/useSelectedDocument.ts
+
+중요:
+- 전체 화면을 다시 만들지 말고, 필요한 컴포넌트만 추가/수정하라.
+- 상태 관리 로직은 컴포넌트에 흩뿌리지 말고 hook으로 분리하라.
+- 클릭 흐름이 끊기지 않도록 사용자가 현재 어디를 보고 있는지 표시하라.
+
+결과물:
+- 시나리오 D 동작 구현
+- 수정한 파일 목록
+- 테스트한 클릭 흐름 설명
+
+
+
+6단계
+
+이제 Manufacture 상세 팝업, Comment 관리, 변경 이력 구조를 구현한다.
+
+먼저 Manufacture 기능:
+1. Tag 상세정보에 있는 Manufacture Name을 클릭 가능하게 만든다.
+2. 클릭하면 Manufacture_list.xlsx에서 해당 회사 정보를 조회한다.
+3. 팝업 Modal로 상세정보를 표시한다.
+4. 표시 항목:
+   - Company_Name
+   - Industry_Sector
+   - Country_Origin
+   - Vendor_Code
+   - Phone_Number
+
+그 다음 Comment 기능:
+1. Tag별 Comment를 입력할 수 있게 한다.
+2. Comment 상태는 Open / Review / Closed 중 하나로 관리한다.
+3. Comment에는 다음 항목이 있어야 한다.
+   - id
+   - tag_no
+   - content
+   - author
+   - status
+   - linked_document_no
+   - created_at
+   - updated_at
+4. 현재 DB가 없으므로 comments.json 또는 comments.xlsx 중 유지보수 쉬운 방식으로 저장하라.
+5. 저장 로직은 별도 repository로 분리하라.
+
+변경 이력 기능:
+1. 사용자가 Comment를 생성/수정/상태변경할 때 history를 남겨라.
+2. history에는 누가/언제/무엇을 변경했는지 저장한다.
+3. history 저장도 별도 repository로 분리한다.
+4. 나중에 DB로 바꾸더라도 comment_repository와 history_repository만 바꾸면 되게 하라.
+
+Backend 권장 파일:
+- backend/app/repositories/comment_repository.py
+- backend/app/repositories/history_repository.py
+- backend/app/services/comment_service.py
+- backend/app/services/history_service.py
+- backend/app/api/routes/comments.py
+- backend/app/api/routes/history.py
+- backend/app/models/comment_schema.py
+- backend/app/models/history_schema.py
+
+Frontend 권장 파일:
+- frontend/src/components/manufacture/ManufactureModal.tsx
+- frontend/src/components/comment/CommentPanel.tsx
+- frontend/src/components/comment/CommentForm.tsx
+- frontend/src/components/history/HistoryPanel.tsx
+- frontend/src/api/comments.ts
+- frontend/src/api/history.ts
+- frontend/src/types/comment.ts
+- frontend/src/types/history.ts
+
+중요:
+- 기존 Tag 상세 화면 전체를 다시 만들지 말고 CommentPanel과 HistoryPanel만 끼워 넣어라.
+- 파일 단위 유지보수가 가능하도록 기능별 파일 분리를 유지하라.
+
+결과물:
+- Manufacture 팝업 구현
+- Comment 입력/조회/상태변경 구현
+- 변경 이력 저장/조회 구현
+- 생성/수정한 파일 목록
+
+
+
+7단계
+
+이제 전체 프로그램을 점검하고 리팩토링한다.
+
+목표:
+Engineering Information System이 로컬 PC에서 안정적으로 실행되고,
+나중에 부분 파일만 수정하기 쉬운 구조인지 확인한다.
+
+점검 항목:
+1. Backend 실행 확인
+   - FastAPI 서버 실행
+   - /api/health 정상 응답
+   - Swagger 문서 정상 표시
+   - 엑셀 파일 경로 오류 시 친절한 에러 표시
+
+2. Frontend 실행 확인
+   - React 화면 정상 표시
+   - System → Package → Tag 트리 동작
+   - Tag 상세정보 표시
+   - Tag 클릭 → 관련 도면 목록 표시
+   - 도면 클릭 → 도면 상세 및 연결 Tag 목록 표시
+   - 연결 Tag 클릭 → Tag 상세정보로 복귀
+   - Manufacture Name 클릭 → 제조사 팝업 표시
+   - Comment 입력/조회/상태변경 동작
+   - History 조회 동작
+
+3. 코드 구조 점검
+   - 한 파일이 너무 커져 있으면 분리하라.
+   - API 호출, 타입, 컴포넌트, 서비스, repository가 분리되어 있는지 확인하라.
+   - 하드코딩된 경로가 있으면 config 또는 .env로 이동하라.
+   - 중복 코드를 utils 또는 hook으로 분리하라.
+
+4. 문서화
+   - README.md 업데이트
+   - 설치 방법
+   - 실행 방법
+   - 엑셀 파일 위치 설정 방법
+   - PDF 도면 폴더 설정 방법
+   - 주요 API 목록
+   - 폴더 구조 설명
+   - 나중에 특정 기능을 수정하려면 어느 파일을 수정해야 하는지 설명
+
+5. 테스트
+   - 최소한의 backend 테스트 작성
+   - 주요 API 응답 테스트
+   - 엑셀 로딩 실패 테스트
+   - 검색 API 테스트
+
+최종 결과물:
+1. 전체 실행 방법
+2. 최종 폴더 구조
+3. 주요 기능별 수정 대상 파일 안내
+   예:
+   - 엑셀 컬럼 변경 시 수정할 파일
+   - Tag 상세 화면 변경 시 수정할 파일
+   - 제조사 팝업 변경 시 수정할 파일
+   - Comment 기능 변경 시 수정할 파일
+   - API 추가 시 수정할 파일
+4. 발견한 문제와 해결 내용
+5. 앞으로 추가하면 좋은 기능 목록
+
