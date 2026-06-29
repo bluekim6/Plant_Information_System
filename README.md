@@ -52,6 +52,10 @@ Plant_Information_System/
 - 엑셀 데이터 파일 4개 (`Tag_Register.xlsx`, `Document_List.xlsx`, `Document_to_Tag.xlsx`, `Manufacture_list.xlsx`)
 - 도면 PDF 가 들어 있는 `Document_Storage` 폴더
 
+> **설정 검증:** 백엔드 의존성 설치 후, 서버를 띄우기 전에 저장소 루트에서
+> `python verify_setup.py` 를 실행하면 Python 버전·의존성·데이터 경로·엑셀 로딩을
+> 한 번에 점검하고 문제 항목과 해결법을 출력한다. 모두 통과하면 실행 준비 완료.
+
 ## 3. 백엔드 실행
 
 ```powershell
