@@ -21,7 +21,7 @@ interface HeaderProps {
 function Header({ onSelectTag, onSelectDocument }: HeaderProps) {
   return (
     <header className="app-header">
-      <div className="app-header__title">Engineering Information System</div>
+      <div className="app-header__title">Plant Information System</div>
       <SearchBar onSelectTag={onSelectTag} onSelectDocument={onSelectDocument} />
       <div className="app-header__role">
         <span>역할</span>

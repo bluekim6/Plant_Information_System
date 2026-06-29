@@ -10,7 +10,7 @@
 
 너는 시니어 풀스택 개발자다.
 
-첨부된 PRD.txt와 엑셀 파일 4개를 기준으로 Engineering Information System을 만든다.
+첨부된 PRD.txt와 엑셀 파일 4개를 기준으로 Plant Information System을 만든다.
 
 사용 기술:
 - Frontend: React + TypeScript
@@ -224,14 +224,14 @@ Backend API를 다음처럼 분리해서 구현하라.
 이제 React + TypeScript Frontend를 구현한다.
 
 화면 목적:
-Engineering Information System의 메인 화면을 만든다.
+Plant Information System의 메인 화면을 만든다.
 왼쪽에는 System → Package → Tag 계층 구조가 보이고,
 가운데에는 선택한 Tag 상세정보가 표시되어야 한다.
 오른쪽 또는 하단에는 관련 문서/도면 목록이 표시될 수 있도록 영역을 준비한다.
 
 필수 UI 구조:
 1. 상단 Header
-   - 시스템명: Engineering Information System
+   - 시스템명: Plant Information System
    - 검색창
    - 사용자 역할 표시 영역
 
@@ -410,7 +410,7 @@ Frontend 권장 파일:
 이제 전체 프로그램을 점검하고 리팩토링한다.
 
 목표:
-Engineering Information System이 로컬 PC에서 안정적으로 실행되고,
+Plant Information System이 로컬 PC에서 안정적으로 실행되고,
 나중에 부분 파일만 수정하기 쉬운 구조인지 확인한다.
 
 점검 항목:

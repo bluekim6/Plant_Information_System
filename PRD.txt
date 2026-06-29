@@ -1,10 +1,10 @@
 PRD
 
-Engineering Information System
+Plant Information System
 Product Requirements Document (회사 문서형)
 1. 문서 개요
 
-문서명: Engineering Information System PRD
+문서명: Plant Information System PRD
 목적: 해양플랜트 설계 및 운영 단계에서 Equipment 관련 Engineering 정보를 통합 관리하고, 사용자별 검색·조회·도면 열람 기능을 제공하는 시스템의 요구사항을 정의한다.
 대상 독자: 사업부서, 설계부서, IT개발팀, QA, 발주처 대응 담당자
 
@@ -18,7 +18,7 @@ Product Requirements Document (회사 문서형)
 
 3. 제품 비전
 
-Engineering Information System은 해양플랜트 설계 및 운영 정보를 Equipment 중심으로 구조화하여 연결하고, 사용자가 최소한의 클릭으로 필요한 Engineering 정보와 연관 도면에 도달할 수 있도록 지원하는 통합 정보 검색 플랫폼이다.
+Plant Information System은 해양플랜트 설계 및 운영 정보를 Equipment 중심으로 구조화하여 연결하고, 사용자가 최소한의 클릭으로 필요한 Engineering 정보와 연관 도면에 도달할 수 있도록 지원하는 통합 정보 검색 플랫폼이다.
 
 4. 제품 목표
 Equipment 관련 Engineering 정보를 통합 저장·관리한다.

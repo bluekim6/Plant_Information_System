@@ -22,7 +22,7 @@ _DEFAULT_DATA_DIR = _BACKEND_DIR / "data"
 class Settings(BaseSettings):
     """애플리케이션 환경설정."""
 
-    appName: str = "Engineering Information System"
+    appName: str = "Plant Information System"
     appVersion: str = "0.1.0"
 
     # 엑셀 데이터 파일 경로

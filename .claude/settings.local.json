@@ -80,7 +80,26 @@
       "Bash(npm init *)",
       "Bash(git *)",
       "Bash(echo \"EXIT:$?\")",
-      "Bash(gh auth *)"
+      "Bash(gh auth *)",
+      "Bash(venv529/bin/python --version)",
+      "Bash(venv529/bin/pip show *)",
+      "Bash(../venv529/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000)",
+      "Bash(pkill -f \"uvicorn app.main:app\")",
+      "Skill(run)",
+      "Bash(curl -s -m 5 http://127.0.0.1:8000/api/health)",
+      "Bash(curl -s -m 5 http://localhost:5173/)",
+      "Bash(curl -s -m 5 -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
+      "Bash(curl -s -o /dev/null -w \"frontend HTTP %{http_code}\\\\n\" http://localhost:5173/)",
+      "Bash(perl -i -pe 's/Engineering Information System/Plant Information System/g' frontend/index.html frontend/src/components/layout/Header.tsx backend/app/config/settings.py README.md frontend/.env.example backend/.env.example PRD.txt 프로그래밍프롬프트.txt)",
+      "Bash(python3 -c \"import sys,json; print\\(json.load\\(sys.stdin\\)['appName']\\)\")",
+      "Bash(xargs kill)",
+      "Bash(../venv529/bin/uvicorn app.main:app --reload --host 127.0.0.1 --port 8000)",
+      "Bash(python3 -c \"import sys,json; print\\('appName =', json.load\\(sys.stdin\\)['appName']\\)\")",
+      "Bash(curl -s -o /dev/null -w \"GET /api/systems  →  HTTP %{http_code}\\\\n\" http://localhost:5173/api/systems)",
+      "Bash(curl -s -o /dev/null -w \"GET /api/health   →  HTTP %{http_code}\\\\n\" http://localhost:5173/api/health)",
+      "Bash(venv529/bin/python -c \"import fastapi, uvicorn, pandas, openpyxl; print\\('deps ok'\\)\")",
+      "Bash(../venv529/bin/python *)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' http://localhost:5173/)"
     ]
   }
 }

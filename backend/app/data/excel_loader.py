@@ -33,6 +33,7 @@ from app.data.validators import (
     validateFileExists,
     validateRequiredColumns,
 )
+from app.utils.decrypt_fasoo import decrypt_fasoo_file
 
 
 @dataclass
@@ -55,8 +56,11 @@ def _readExcel(filePath: Path, label: str, requiredColumns: List[str]) -> pd.Dat
     - 모든 문자열 컬럼은 양쪽 공백을 제거한다.
     """
     validateFileExists(filePath, label)
+    # 회사 환경에서 엑셀에 Fasoo DRM 이 걸려 있을 수 있으므로, 파싱 직전에
+    # DRM 을 해제한다. 비(非) Windows/실패 시 원본 경로를 그대로 반환한다.
+    readPath = decrypt_fasoo_file(filePath)
     try:
-        df = pd.read_excel(filePath, dtype=str).fillna("")
+        df = pd.read_excel(readPath, dtype=str).fillna("")
     except Exception as exc:
         raise ExcelDataError(
             f"[{label}] 엑셀 파일을 읽는 중 오류가 발생했습니다: {exc}"
