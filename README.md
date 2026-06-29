@@ -1,4 +1,4 @@
-# Engineering Information System
+# Plant Information System
 
 해양플랜트 Equipment 관련 Engineering 정보를 통합 관리하기 위한 로컬 실행형 시스템.
 
@@ -109,3 +109,4 @@ npm run dev
 
 본 단계에서는 폴더 구조와 빈 모듈, 기본 실행 구조만 구성되어 있다.
 도메인 로직(Tag/Document/Hierarchy/Search/Manufacture)은 다음 단계에서 구현한다.
+# Plant_Information_System
