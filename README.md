@@ -93,45 +93,39 @@ npm run dev
 
 ## 5. 환경설정 파일
 
-### backend/.env (⚠️ PC 마다 직접 수정 필요)
+### backend/.env
 
-> **중요:** `backend/.env` 의 경로는 **절대경로**이며 PC 마다 다르다.
-> 다른 PC 에 받은 직후에는 경로가 맞지 않아 데이터 조회 시 `503` 오류가 난다.
-> (앱은 시작은 되지만, 요청 시점에 엑셀을 못 찾아 실패한다.)
-> `.git` 에 커밋된 `.env.example` 의 경로는 작성자 PC 기준 예시일 뿐이므로,
-> **받는 즉시 본인 PC 경로로 바꿔야 한다.**
+경로는 **저장소 루트 기준 상대경로**로 적는다. 엑셀 4개 파일과 `Document_Storage/`
+폴더가 저장소 루트에 함께 있는 기본 배치라면, **PC 가 바뀌어도 수정 없이 그대로 동작한다.**
+(상대경로는 backend 코드가 저장소 루트를 기준으로 자동 해석한다.)
 
 설정 절차:
 
 ```bash
-# 1) 예시 파일을 복사
 cp backend/.env.example backend/.env       # Windows: copy backend\.env.example backend\.env
-
-# 2) backend/.env 를 열어 5개 경로를 본인 PC 의 실제 경로로 수정
 ```
 
-엑셀 4개 파일과 `Document_Storage/` 폴더는 보통 **이 저장소 루트**에 함께 있으므로,
-저장소를 `C:/work/Plant_Information_System` 에 받았다면 아래처럼 그 경로를 그대로 쓰면 된다.
+기본 `.env` 내용 (그대로 사용하면 됨):
 
 ```dotenv
-# Windows 예시
-TAG_REGISTER_PATH=C:/work/Plant_Information_System/Tag_Register.xlsx
-DOCUMENT_LIST_PATH=C:/work/Plant_Information_System/Document_List.xlsx
-DOCUMENT_TO_TAG_PATH=C:/work/Plant_Information_System/Document_to_Tag.xlsx
-MANUFACTURE_LIST_PATH=C:/work/Plant_Information_System/Manufacture_list.xlsx
-DRAWING_STORAGE_PATH=C:/work/Plant_Information_System/Document_Storage
-
-# macOS / Linux 예시
-# TAG_REGISTER_PATH=/Users/me/work/Plant_Information_System/Tag_Register.xlsx
-# ... (나머지도 동일하게 본인 경로로)
+TAG_REGISTER_PATH=Tag_Register.xlsx
+DOCUMENT_LIST_PATH=Document_List.xlsx
+DOCUMENT_TO_TAG_PATH=Document_to_Tag.xlsx
+MANUFACTURE_LIST_PATH=Manufacture_list.xlsx
+DRAWING_STORAGE_PATH=Document_Storage
 ```
+
+> 참고: 데이터 파일을 **저장소 밖** 다른 위치(예: 공유 드라이브)에 둘 때만
+> 해당 변수를 절대경로(`D:/data/Tag_Register.xlsx` 등)로 바꾼다. 절대경로를 적으면
+> 그 값이 그대로 사용된다.
+> `.env` 자체를 생략해도 위와 동일한 기본값(저장소 루트의 파일)이 적용된다.
 
 | 변수명 | 설명 |
 | --- | --- |
-| `TAG_REGISTER_PATH` | Tag_Register.xlsx 절대경로 |
-| `DOCUMENT_LIST_PATH` | Document_List.xlsx 절대경로 |
-| `DOCUMENT_TO_TAG_PATH` | Document_to_Tag.xlsx 절대경로 |
-| `MANUFACTURE_LIST_PATH` | Manufacture_list.xlsx 절대경로 |
+| `TAG_REGISTER_PATH` | Tag_Register.xlsx 경로 (상대=저장소 루트 기준) |
+| `DOCUMENT_LIST_PATH` | Document_List.xlsx 경로 |
+| `DOCUMENT_TO_TAG_PATH` | Document_to_Tag.xlsx 경로 |
+| `MANUFACTURE_LIST_PATH` | Manufacture_list.xlsx 경로 |
 | `DRAWING_STORAGE_PATH` | 도면(PDF) 저장 폴더 경로 |
 
 경로가 맞는지 빠르게 확인하려면 `backend` 폴더에서 `python _smoke_test.py` 실행 시
@@ -145,8 +139,9 @@ DRAWING_STORAGE_PATH=C:/work/Plant_Information_System/Document_Storage
 
 ## 6. 자주 겪는 문제
 
-- **데이터가 안 나오고 `503` 오류** → `backend/.env` 의 경로가 현재 PC 와 맞지 않는 경우.
-  5장의 절차대로 절대경로를 본인 PC 기준으로 다시 설정한다.
+- **데이터가 안 나오고 `503` 오류** → 엑셀 파일이 저장소 루트에 없거나 파일명이 다른 경우.
+  `python _smoke_test.py` 로 어떤 파일을 못 찾는지 확인한다. 데이터를 다른 위치에 두었다면
+  5장처럼 해당 변수만 절대경로로 지정한다.
 - **도면 PDF 가 안 보임** → `frontend/.env` 의 `VITE_API_BASE_URL` 을 비워두었는지 확인한다.
 - **회사(폐쇄망) PC 의 Fasoo DRM** → 엑셀/PDF 읽기는 Fasoo DRM 해제를 자동 처리한다(Windows 전용).
   개발용 macOS/Linux 에서는 자동으로 무시(no-op)되어 동일하게 동작한다.

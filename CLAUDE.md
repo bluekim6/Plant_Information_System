@@ -30,8 +30,8 @@ There is **no backend test suite** — only `backend/_smoke_test.py`. Frontend t
 
 ## Environment / data wiring (the most common source of breakage)
 
-- `backend/.env` is **required** and must point to absolute paths of the four Excel files + the `Document_Storage` PDF folder. Settings (`app/config/settings.py`) resolves `.env` relative to the `backend/` dir, not the cwd. Missing/incorrect paths surface as `503` errors at request time, not startup crashes (preload only logs errors).
-- The Excel files (`Tag_Register.xlsx`, `Document_List.xlsx`, `Document_to_Tag.xlsx`, `Manufacture_list.xlsx`) and `Document_Storage/` live in the **repo root** on this machine. The committed `.env.example` ships with Windows `D:/code/...` paths because this project moves between PCs — expect to re-point `.env` per environment.
+- Settings (`app/config/settings.py`) loads `.env` relative to the `backend/` dir (not cwd). Path values may be **relative or absolute**: a `field_validator` resolves any relative path against the **repo root** (`_REPO_ROOT = backend/..`), and absolute paths are used as-is. The four Excel paths + `DRAWING_STORAGE_PATH` also have repo-root defaults, so the app runs even with no `.env`. Missing/incorrect paths surface as `503` errors at request time, not startup crashes (preload only logs errors).
+- The Excel files (`Tag_Register.xlsx`, `Document_List.xlsx`, `Document_to_Tag.xlsx`, `Manufacture_list.xlsx`) and `Document_Storage/` live in the **repo root**, so the default relative paths work on any machine. Only override with an absolute path when data lives outside the repo.
 - `frontend/.env`: `VITE_API_BASE_URL` is intentionally **empty by default**, so all `/api/*` calls go same-origin and Vite's proxy forwards them to `:8000`. This is deliberate — a corporate security policy blocks cross-origin PDF embedding, so drawings must be served same-origin. Only set an absolute URL in environments that require it.
 
 ## Backend architecture
