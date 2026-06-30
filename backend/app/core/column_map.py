@@ -32,8 +32,10 @@ class TagColumns:
         MANUFACTURE_NAME,
     ]
 
-    # Attribute A ~ Attribute BD 까지의 동적 속성 컬럼은 prefix 로 식별
-    ATTRIBUTE_PREFIX = "Attribute "
+    # 위 핵심 컬럼을 제외한 나머지 컬럼은 모두 동적 속성(attribute)으로 수집한다.
+    # (예: EQUIPMENT CLASS, VENDOR, MODEL DESCRIPTION, P&ID NUMBER ...)
+    # 원본 헤더가 추가/변경되어도 코드 수정 없이 그대로 보존된다.
+    CORE: List[str] = REQUIRED
 
 
 class DocumentColumns:
@@ -60,20 +62,22 @@ class ManufactureColumns:
 
     주의: Tag_Register 의 'Manufacture Name' 값과
     Manufacture_list 의 'Company_Name' 값이 조인 키이다.
+
+    원본 컬럼명 'Adress', 'Contract Person' 은 엑셀 헤더의 철자를 그대로 따른다.
     """
 
     ID = "ID"
     COMPANY_NAME = "Company_Name"
-    INDUSTRY_SECTOR = "Industry_Sector"
-    COUNTRY_ORIGIN = "Country_Origin"
-    VENDOR_CODE = "Vendor_Code"
-    PHONE_NUMBER = "Phone_Number"
+    ADDRESS = "Adress"
+    TOWN = "Town"
+    PROVINCE = "Province"
+    PHONE_NUMBER = "Phone Number"
+    EMAIL = "e-mail"
+    WEBSITE = "Website"
+    CONTACT_PERSON = "Contract Person"
+    COMPANY_TYPE = "Company Type"
 
     REQUIRED: List[str] = [
         ID,
         COMPANY_NAME,
-        INDUSTRY_SECTOR,
-        COUNTRY_ORIGIN,
-        VENDOR_CODE,
-        PHONE_NUMBER,
     ]

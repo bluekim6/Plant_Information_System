@@ -19,10 +19,14 @@ def _toDetail(row: pd.Series) -> ManufactureDetail:
     return ManufactureDetail(
         id=row.get(ManufactureColumns.ID) or None,
         companyName=row[ManufactureColumns.COMPANY_NAME],
-        industrySector=row.get(ManufactureColumns.INDUSTRY_SECTOR) or None,
-        countryOrigin=row.get(ManufactureColumns.COUNTRY_ORIGIN) or None,
-        vendorCode=row.get(ManufactureColumns.VENDOR_CODE) or None,
+        address=row.get(ManufactureColumns.ADDRESS) or None,
+        town=row.get(ManufactureColumns.TOWN) or None,
+        province=row.get(ManufactureColumns.PROVINCE) or None,
         phoneNumber=row.get(ManufactureColumns.PHONE_NUMBER) or None,
+        email=row.get(ManufactureColumns.EMAIL) or None,
+        website=row.get(ManufactureColumns.WEBSITE) or None,
+        contactPerson=row.get(ManufactureColumns.CONTACT_PERSON) or None,
+        companyType=row.get(ManufactureColumns.COMPANY_TYPE) or None,
     )
 
 

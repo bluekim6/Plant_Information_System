@@ -45,14 +45,22 @@ function ManufactureModal({ manufactureName, onClose }: ManufactureModalProps) {
               <dd>{detail.companyName}</dd>
               <dt>ID</dt>
               <dd>{displayOrDash(detail.id)}</dd>
-              <dt>Industry Sector</dt>
-              <dd>{displayOrDash(detail.industrySector)}</dd>
-              <dt>Country Origin</dt>
-              <dd>{displayOrDash(detail.countryOrigin)}</dd>
-              <dt>Vendor Code</dt>
-              <dd>{displayOrDash(detail.vendorCode)}</dd>
+              <dt>Company Type</dt>
+              <dd>{displayOrDash(detail.companyType)}</dd>
+              <dt>Address</dt>
+              <dd>{displayOrDash(detail.address)}</dd>
+              <dt>Town</dt>
+              <dd>{displayOrDash(detail.town)}</dd>
+              <dt>Province</dt>
+              <dd>{displayOrDash(detail.province)}</dd>
               <dt>Phone</dt>
               <dd>{displayOrDash(detail.phoneNumber)}</dd>
+              <dt>E-mail</dt>
+              <dd>{displayOrDash(detail.email)}</dd>
+              <dt>Website</dt>
+              <dd>{displayOrDash(detail.website)}</dd>
+              <dt>Contact Person</dt>
+              <dd>{displayOrDash(detail.contactPerson)}</dd>
             </dl>
           )}
         </div>

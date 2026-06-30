@@ -93,7 +93,7 @@ def main() -> int:
     mans = findAllManufactures()
     print("count:", len(mans))
     for m in mans[:3]:
-        print(" -", m.companyName, "|", m.industrySector, "|", m.countryOrigin)
+        print(" -", m.companyName, "|", m.companyType, "|", m.province)
 
     printSection("findManufactureByName('Nexus Marine')")
     one = findManufactureByName("Nexus Marine")

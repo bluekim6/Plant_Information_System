@@ -35,7 +35,7 @@ def listTagsRoute() -> List[TagSummary]:
 @router.get(
     "/{tagNo}",
     response_model=TagDetail,
-    summary="Tag 상세 (Attribute A~BD 포함)",
+    summary="Tag 상세 (모든 부가 속성 포함)",
     responses={
         404: {"model": ErrorResponse},
         503: {"model": ErrorResponse},

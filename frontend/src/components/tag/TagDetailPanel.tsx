@@ -13,7 +13,7 @@ interface TagDetailPanelProps {
   onSelectDocument: (documentNo: string) => void;
 }
 
-const PRIMARY_ATTRIBUTE_KEYS = ["Attribute A", "Attribute B"];
+const PRIMARY_ATTRIBUTE_KEYS = ["EQUIPMENT CLASS", "MODEL DESCRIPTION"];
 
 function TagDetailPanel({
   tagNo,

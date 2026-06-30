@@ -23,12 +23,16 @@ def _toSummary(row: pd.Series) -> TagSummary:
     )
 
 
+_CORE_TAG_COLUMNS = set(TagColumns.CORE)
+
+
 def _toDetail(row: pd.Series) -> TagDetail:
-    # Attribute A ~ Attribute BD 등 동적 속성을 dict 로 모아 보존
+    # 핵심 컬럼을 제외한 나머지 컬럼을 동적 속성으로 모아 보존
+    # (EQUIPMENT CLASS, VENDOR, MODEL DESCRIPTION, P&ID NUMBER 등)
     attributes: Dict[str, str] = {
         col: row[col]
         for col in row.index
-        if str(col).startswith(TagColumns.ATTRIBUTE_PREFIX)
+        if str(col) not in _CORE_TAG_COLUMNS
     }
     return TagDetail(
         tagNo=row[TagColumns.TAG],

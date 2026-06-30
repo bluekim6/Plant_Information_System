@@ -2,8 +2,12 @@
 export interface ManufactureDetail {
   id?: string | null;
   companyName: string;
-  industrySector?: string | null;
-  countryOrigin?: string | null;
-  vendorCode?: string | null;
+  address?: string | null;
+  town?: string | null;
+  province?: string | null;
   phoneNumber?: string | null;
+  email?: string | null;
+  website?: string | null;
+  contactPerson?: string | null;
+  companyType?: string | null;
 }

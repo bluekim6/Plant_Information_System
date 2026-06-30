@@ -23,9 +23,10 @@ class TagSummary(BaseModel):
 
 
 class TagDetail(TagSummary):
-    """Tag 상세 (Attribute A~BD 등 모든 부가 속성 포함).
+    """Tag 상세 (핵심 컬럼 외 모든 부가 속성 포함).
 
-    attributes 는 원본 컬럼명을 키로 사용하여 사용자 친숙도 유지.
+    attributes 는 원본 컬럼명(EQUIPMENT CLASS, VENDOR 등)을 키로 사용하여
+    사용자 친숙도 유지.
     """
 
     referenceDrawing: Optional[str] = None
@@ -55,10 +56,14 @@ class ManufactureDetail(BaseModel):
 
     id: Optional[str] = None
     companyName: str
-    industrySector: Optional[str] = None
-    countryOrigin: Optional[str] = None
-    vendorCode: Optional[str] = None
+    address: Optional[str] = None
+    town: Optional[str] = None
+    province: Optional[str] = None
     phoneNumber: Optional[str] = None
+    email: Optional[str] = None
+    website: Optional[str] = None
+    contactPerson: Optional[str] = None
+    companyType: Optional[str] = None
 
 
 # ---------- Hierarchy ----------
